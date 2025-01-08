@@ -1,0 +1,41 @@
+import telebot
+from telebot import apihelper
+from random import choice
+
+# Ваш токен API
+API_TOKEN = 'YOUR API'
+
+# Настройки прокси
+proxy = '89.110.89.9:4443'
+secret = 'efd79ae78776d76e3d6ddeda739d7d09'
+
+# Установка прокси
+apihelper.proxy = {'https': f'https://{proxy}/?secret={secret}'}
+
+# Создание экземпляра бота
+bot = telebot.TeleBot(API_TOKEN)
+
+# Обработка команд '/start' и '/help'
+@bot.message_handler(commands=['help', 'start'])
+def send_welcome(message):
+    bot.reply_to(message, """\
+Привет! Я EchoBot.
+Я здесь, чтобы повторять ваши добрые слова. Просто скажите что-нибудь хорошее, и я скажу то же самое!\
+""")
+
+@bot.message_handler(commands=['info'])
+def send_help(message):
+    bot.reply_to(message, "Этот бот создан другим ботом, бла бла 1г23н7врыа7979п379 вапыва723 выа7пвыпацу9фпа  9ф7впа 9фвап ф7вапф7в а79фывпа97фврагывлваип 79аврпмгавипшрварпг ва нап79рва89пав89панв ва ")
+
+@bot.message_handler(commands=['coin'])
+def coin_handler(message):
+    coin = choice(["ОРЕЛ", "РЕШКА"])
+    bot.reply_to(message, coin)
+
+# Обработка всех остальных текстовых сообщений
+@bot.message_handler(func=lambda message: True)
+def echo_message(message):
+    bot.reply_to(message, message.text)
+
+# Запуск бота
+bot.infinity_polling()
